@@ -30,4 +30,6 @@ public class Constent {
     public static String QN_DOMAIN = "http://pih9q368w.bkt.clouddn.com/";
     public static String QN_BUCKET = "qdjingci";
 
+    public static String JWT_SECRET = "7786df7fc3a34e26a61c034d5ec8245d";
+
 }

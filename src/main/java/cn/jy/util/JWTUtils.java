@@ -1,5 +1,6 @@
 package cn.jy.util;
 
+import cn.jy.constent.Constent;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -13,8 +14,6 @@ import java.util.Map;
 
 public class JWTUtils {
 
-    private static final String profiles = "XMJJ666";
-
     /**
      * 由字符串生成加密key
      *
@@ -22,7 +21,7 @@ public class JWTUtils {
      */
     private static SecretKey generalKey() {
         try {
-            String stringKey = profiles;
+            String stringKey = Constent.JWT_SECRET;
             byte[] encodedKey = Base64.decodeBase64(stringKey);
             SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
             return key;
@@ -40,7 +39,7 @@ public class JWTUtils {
      * @return
      * @throws Exception
      */
-    public static String createJWT(String id, String subject, Map<String, Object> claims, long ttlMillis) {
+    public static String create(String id, String subject, Map<String, Object> claims, long ttlMillis) {
         try {
             SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
             long nowMillis = System.currentTimeMillis();
@@ -70,7 +69,7 @@ public class JWTUtils {
      * @return
      * @throws Exception
      */
-    public static Claims parseJWT(String jwt) {
+    public static Claims parse(String jwt) {
         try {
             SecretKey key = generalKey();
             Claims claims = Jwts.parser()
@@ -84,11 +83,15 @@ public class JWTUtils {
 
 
     public static void main(String[] args) {
-       /* long time = 10000L;
-        String jwt = JWTUtils.createJWT("id", "subjec", time);
-        System.out.println(jwt);
-        Claims claims = parseJWT(jwt);
-        System.out.println(claims.getSubject());*/
+//        long time = 10000L;
+//        String jwt = JWTUtils.createJWT("id", "subjec",new HashMap<>(), time);
+//        System.out.println(jwt);
+//        Claims c = parseJWT(jwt);
+//        System.out.println(c.getId());//jwt
+//        System.out.println(c.getIssuedAt());//Mon Feb 05 20:50:49 CST 2018
+//        System.out.println(c.getSubject());//{id:100,name:xiaohong}
+//        System.out.println(c.getIssuer());//null
+
        /* long time = 10000L;
         String jwt = JWTUtils.createJWT("userId", "70", -1);
         System.out.println(jwt);

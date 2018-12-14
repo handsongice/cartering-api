@@ -9,15 +9,18 @@ import cn.jy.service.BroadcastService;
 import cn.jy.service.MessageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-public class MessageController {
+@RequestMapping("/api")
+public class ApiController {
 
     @Autowired
     BroadcastService broadcastService;
@@ -26,15 +29,18 @@ public class MessageController {
     MessageService messageService;
 
     /**
-     * 列表
-     * @param params
+     *
+     * @param role
+     * @param request
      * @return
      */
-    @RequestMapping("/allBroadcastList")
-    public ResultMap allBroadcastList(@RequestParam Map<String, Object> params) {
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value = "role/{role}", method = RequestMethod.GET)
+    public ResultMap role(@PathVariable final String role, final HttpServletRequest request) {
         try {
-            List<Broadcast> broadcasts = broadcastService.getBroadcastList(params);
-            return ResultMap.success(broadcasts);
+            final Claims claims = (Claims) request.getAttribute("claims");
+            //List<Broadcast> broadcasts = broadcastService.getBroadcastList(params);
+            return ResultMap.success(claims);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMap.fail("出错了");
