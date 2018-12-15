@@ -35,11 +35,11 @@ public class JWTUtils {
      *
      * @param id
      * @param subject
-     * @param ttlMillis
+     * @param hour
      * @return
      * @throws Exception
      */
-    public static String create(String id, String subject, Map<String, Object> claims, long ttlMillis) {
+    public static String create(String id, String subject, Map<String, Object> claims, int hour) {
         try {
             SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
             long nowMillis = System.currentTimeMillis();
@@ -51,8 +51,8 @@ public class JWTUtils {
                     .setIssuedAt(now)
                     .setSubject(subject)
                     .signWith(signatureAlgorithm, key);
-            if (ttlMillis >= 0) {
-                long expMillis = nowMillis + ttlMillis;
+            if (hour >= 0) {
+                long expMillis = nowMillis + (3600*1000*hour);
                 Date exp = new Date(expMillis);
                 builder.setExpiration(exp);
             }
@@ -77,6 +77,7 @@ public class JWTUtils {
                     .parseClaimsJws(jwt).getBody();
             return claims;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

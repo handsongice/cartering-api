@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -33,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResultMap addCustomer(Customer customer) throws Exception {
+    public String addCustomer(Customer customer) throws Exception {
         //用户名验证
         Customer input = new Customer();
         input.setPhone(customer.getPhone());
@@ -42,12 +43,14 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException("手机号重复！");
         }
         //设置创建时间
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        customer.setUuid(uuid);
         customer.setCreateTime(new Date());
         int dbResult = customerMapper.insertSelective(customer);
         if(dbResult <=0){
             throw new RuntimeException(Constent.DB_INSERT_FAILURE);
         }
-        return ResultMap.success(Constent.DB_INSERT_SUCCESS);
+        return uuid;
     }
 
     @Override

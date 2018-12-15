@@ -31,7 +31,7 @@ public interface CustomerService {
      * @param customer
      * @return
      */
-    ResultMap addCustomer(Customer customer) throws Exception;
+    String addCustomer(Customer customer) throws Exception;
 
     /**
      * 更新数据

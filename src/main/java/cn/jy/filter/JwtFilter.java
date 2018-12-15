@@ -16,16 +16,19 @@ public class JwtFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
-        final String authHeader = request.getHeader("auth");
+        final String authHeader = request.getHeader("token");
         if (authHeader == null || !authHeader.startsWith("Cartering ")) {
-            throw new ServletException("Missing or invalid Authorization header.");
+            throw new ServletException("请先登录！");
         }
         final String token = authHeader.substring(10);
         try {
-            final Claims claims = JWTUtils.parse(token);
+            Claims claims = JWTUtils.parse(token);
+            if(null == claims) {
+                throw new ServletException("登录超时！");
+            }
             request.setAttribute("claims", claims);
         } catch (final SignatureException e) {
-            throw new ServletException("Invalid token.");
+            throw new ServletException("登录超时！");
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

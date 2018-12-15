@@ -30,13 +30,13 @@ public class ApiController {
 
     /**
      *
-     * @param role
+     * @param params
      * @param request
      * @return
      */
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "role/{role}", method = RequestMethod.GET)
-    public ResultMap role(@PathVariable final String role, final HttpServletRequest request) {
+    @RequestMapping(value = "role", method = RequestMethod.POST)
+    public ResultMap role(@RequestParam Map<String, Object> params, final HttpServletRequest request) {
         try {
             final Claims claims = (Claims) request.getAttribute("claims");
             //List<Broadcast> broadcasts = broadcastService.getBroadcastList(params);

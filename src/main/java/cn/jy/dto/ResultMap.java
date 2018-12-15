@@ -89,6 +89,9 @@ public class ResultMap {
     public static ResultMap success(String msg){
         return new ResultMap(200,msg,null);
     }
+    public static ResultMap success(String msg,Object data){
+        return new ResultMap(200,msg,data);
+    }
     public static ResultMap success(){
         return new ResultMap(null);
     }
